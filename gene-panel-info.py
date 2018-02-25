@@ -5,6 +5,7 @@ import json
 import pymysql.cursors
 from collections import Counter
 import operator
+import pprint
 
 def get_gene_ids(gene, cur):
 	q = "select id from gene_product where symbol='%s' and species_id='464824';" % gene
@@ -64,11 +65,22 @@ def get_terms(tids, cur):
 parser = argparse.ArgumentParser(description='Retrieve information on the genes provided: Associated locus IDs, phenotypes, GO terms.')
 parser.add_argument('genes', type=str, nargs='+',
                     help='Accepts comma-separated list of genes.')
+parser.add_argument('-out', type=str, default="",
+                    help='Output filename. Default is gene-panel-info_[dash-separated list of genes].txt')
+parser.add_argument('-p', action='store_true', help='Print output.')
 args = parser.parse_args()
 
 
 temp_genes = args.genes[0]
 gene_list = temp_genes.replace(" ","").split(",")
+
+fname = args.out
+
+if fname == "":
+	temp = '-'.join(gene_list)
+	fname = "gene-panel-info_" + temp + ".txt"
+
+termprint = args.p
 
 conditions = []
 omim_locusids = []
@@ -162,6 +174,9 @@ while i < len(gene_list):
 	res[gene_list[i]] = ({'conditions': conditions[i], 'omim_locusids': omim_locusids[i], 'omim_phenids': omim_phenids[i], 'go_terms': go_terms[i]})
 	i += 1
 
-f = open("test.txt", "w")
+f = open(fname, "w")
 f.write(json.dumps(res))
-f.close() 
+f.close()
+
+if termprint:
+	print pprint.pprint(res)
