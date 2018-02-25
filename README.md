@@ -1,6 +1,6 @@
 # gene-panel-info
 ## Overview
-Combines information from multiple publicly available sources (Orphanet, Gene Ontology [GO] Cosortium) to facilitate a better understanding of which genes and what conditions are included on epilepsy gene panels.
+Combines information from multiple publicly available sources (Orphanet, Gene Ontology [GO] Cosortium) to facilitate a better understanding of which phenotypes and biological functions are associated with genes of interest.
 
 ## Data Sources
 * Orphadata (Accessed January 31, 2018): http://www.orphadata.org
